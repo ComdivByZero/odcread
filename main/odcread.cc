@@ -146,15 +146,53 @@ namespace odc {
 	}
 }
 
+static int addToGit() {
+	int ret, wr;
+	FILE *fa, *fc;
+
+	ret = 1;
+	fa = fopen(".git/info/attributes", "ab");
+	if (NULL == fa) {
+		std::cerr << "Can not open file .git/info/attributes" << std::endl;
+	} else {
+		fc = fopen(".git/config", "ab");
+		if (NULL == fc) {
+			std::cerr << "Can not open file .git/config" << std::endl;
+		} else {
+			wr = fprintf(fa, "\n*.odc diff=cp\n");
+			if (wr < 3) {
+				std::cerr << "Can not edit .git/info/attributes" << std::endl;
+			} else {
+				wr = fprintf(fc, "\n[diff \"cp\"]\n"
+				                 "	binary = true\n"
+				                 "	textconv = /usr/bin/odcread\n");
+				if (wr < 3) {
+					std::cerr << "Can not edit .git/config" << std::endl;
+				} else {
+					ret = 0;
+				}
+			}
+			fclose(fc);
+		}
+		fclose(fa);
+	}
+	return ret;
+}
+
 int main(int argc, char *argv[]) {
 	if (argc < 2) {
-		std::cerr << "odcread outputs content of .odc as plain text" << std::endl
-		          << "Usage:  odcread file.odc" << std::endl;
+		std::cerr << "odcread outputs content of .odc as plain text\n" << std::endl
+		          << "Usage:  odcread file.odc" << std::endl
+		          << "        odcread -add-to-git" << std::endl;
 		return 1;
 	}
 
 	// Set the locale according to the terminal's environment
 	setlocale(LC_ALL, "");
+
+	if (0 == strcmp("-add-to-git", argv[1])) {
+		return addToGit();
+	}
 
 	std::ifstream in(argv[1], std::ios::in | std::ios::binary);
 
