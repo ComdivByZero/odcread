@@ -7,18 +7,19 @@
 MODULES := main reader store alien typeregister textmodel fold typepath
 
 CFLAGS += -I.
+LDFLAGS +=
 
 # Variables for the modules to write to
-SRCS := 
+SRCS :=
 
 # Include module definitions
 include $(patsubst %,%/Make.inc,$(MODULES))
 
 # This rule just links the object files together
 odcread: $(SRCS:.cc=.o)
-	g++ -o $@ $^
+	g++ $(LDFLAGS) -o $@ $^
 
-# This rule build an object (.o) from a source (.cc). 
+# This rule build an object (.o) from a source (.cc).
 %.o: %.cc
 	g++ $(CFLAGS) $< -c -o $@
 
