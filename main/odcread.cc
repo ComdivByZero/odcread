@@ -57,7 +57,7 @@ namespace odc {
 			}
 			delete c;
 		}
-		
+
 		public:
 		virtual void partStart() {
 			d_context.push(new PartContext());
@@ -148,6 +148,8 @@ namespace odc {
 
 int main(int argc, char *argv[]) {
 	if (argc < 2) {
+		std::cerr << "odcread outputs content of .odc as plain text" << std::endl
+		          << "Usage:  odcread file.odc" << std::endl;
 		return 1;
 	}
 
