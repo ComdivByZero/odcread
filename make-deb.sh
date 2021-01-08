@@ -1,7 +1,7 @@
 #!/usr/bin/sh
 
 NAME=odcread
-VERSION=0.0~a1
+VERSION=0.1~a0
 HOMEPAGE=https://github.com/ComdivByZero/odcread
 MAINTAINER_1="Comdiv <ComdivByZero@yandex.ru>"
 
@@ -51,12 +51,16 @@ Architecture: amd64
 Depends: libc6
 Description: Reader of ".odc" oberon compound documents
  This program converts to plain text "Oberon compound document" binary format,
- .
  used by the Black Box Component Builder, WinBUGS, and OpenBUGS
 
 EOF
 
 gzip -9cn - > $DOC/changelog.gz << EOF
+ $NAME (0.1~a0) unstable; urgency=low
+  * Fixed crashing for wrong files
+
+ -- ${MAINTAINER_1} Sat, 09 Jan 2021 00:00:00 +0200
+
  $NAME (0.0~a1) unstable; urgency=low
   * Added short help
   * Added command for integration with .git
@@ -77,25 +81,19 @@ Source: ${HOMEPAGE}
 
 Files: *
 Copyright: 2011 Gert van Valkenhoef <g.h.m.van.valkenhoef@rug.nl>
+ 2021 ComdivByZero <ComdivByZero@yandex.ru>
 License: GPL3
  This program is free software: you can redistribute it and/or modify
- .
  it under the terms of the GNU General Public License as published by
- .
  the Free Software Foundation, either version 3 of the License, or
- .
  (at your option) any later version.
  .
  This program is distributed in the hope that it will be useful,
- .
  but WITHOUT ANY WARRANTY; without even the implied warranty of
- .
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- .
  GNU General Public License for more details.
  .
  You should have received a copy of the GNU General Public License
- .
  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 EOF

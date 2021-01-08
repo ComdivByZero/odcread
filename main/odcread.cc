@@ -199,6 +199,9 @@ int main(int argc, char *argv[]) {
 	odc::Store* s;
 	try {
 		s = odc::importDocument(in);
+		if (NULL == s) {
+			return 2;
+		}
 	} catch (int trap) {
 		std::cerr << "Exception in parsing file: BlackBox trap no. " << trap << std::endl;
 		return 2;
