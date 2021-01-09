@@ -180,7 +180,7 @@ static int addToGit() {
 }
 
 int main(int argc, char *argv[]) {
-	if (argc < 2) {
+	if (argc < 2 || argv[1][0] == '-' && 0 != strcmp(argv[1], "-add-to-git")) {
 		std::cerr << "odcread outputs content of .odc as plain text\n" << std::endl
 		          << "Usage:  odcread file.odc" << std::endl
 		          << "        odcread -add-to-git" << std::endl;
@@ -196,17 +196,23 @@ int main(int argc, char *argv[]) {
 
 	std::ifstream in(argv[1], std::ios::in | std::ios::binary);
 
+	if (!in.is_open()) {
+		std::cerr << "Can not open file" << std::endl;
+		return 2;
+	}
+
 	odc::Store* s;
 	try {
 		s = odc::importDocument(in);
-		if (NULL == s) {
-			return 2;
-		}
 	} catch (int trap) {
 		std::cerr << "Exception in parsing file: BlackBox trap no. " << trap << std::endl;
 		return 2;
 	} catch (const char * exception) {
 		std::cerr << "Exception in parsing file: " << exception << std::endl;
+		return 2;
+	}
+	if (NULL == s) {
+		std::cerr << "Can not parse file" << std::endl;
 		return 2;
 	}
 //	std::cout << s->toPlainText() << std::endl;

@@ -58,6 +58,7 @@ EOF
 gzip -9cn - > $DOC/changelog.gz << EOF
  $NAME (0.1~a0) unstable; urgency=low
   * Fixed crashing for wrong files
+  * Added diagnostic messages
 
  -- ${MAINTAINER_1} Sat, 09 Jan 2021 00:00:00 +0200
 
