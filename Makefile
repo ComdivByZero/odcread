@@ -6,6 +6,8 @@
 #  * $(MODULE)/*.cc -- module source files
 MODULES := main reader store alien typeregister textmodel fold typepath
 
+PREFIX=/usr/local
+
 CFLAGS += -I. -O1 -flto
 
 LDFLAGS += -flto
@@ -51,8 +53,8 @@ $(foreach src,$(SRCS),$(eval $(call depend_on_compiled_header,$(src))))
 
 install:
 	strip odcread
-	mkdir -p $(DESTDIR)/usr/bin
-	cp odcread $(DESTDIR)/usr/bin/
+	mkdir -p $(PREFIX)/bin
+	cp odcread $(PREFIX)/bin/
 
 clean:
 	rm -f */*.o */module.d */module.ih.gch
