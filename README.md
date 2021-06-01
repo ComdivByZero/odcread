@@ -17,6 +17,11 @@ From [Snap Store][5]:
 
     snap install odcread
 
+From [Homebrew Oberon tap][6] on macOS:
+
+    brew tap vostok-space/oberon
+    brew install odcread
+
 License
 -------
 
@@ -39,3 +44,4 @@ License
 [3]: http://www.openbugs.info/
 [4]: https://wiki.oberon.org/repo
 [5]: https://snapcraft.io/odcread
+[6]: https://github.com/Vostok-space/homebrew-oberon
