@@ -7,6 +7,16 @@ the [Black Box Component Builder][1], [WinBUGS][2], and [OpenBUGS][3].
 A basic program is provided to convert the textual parts of these documents to
 plain text.
 
+Install
+-------
+From [Deb-repository][4]:
+
+    /usr/bin/sudo apt install odcread
+
+From [Snap Store][5]:
+
+    snap install odcread
+
 License
 -------
 
@@ -27,3 +37,5 @@ License
 [1]: http://www.oberon.ch/blackbox.html
 [2]: http://www.mrc-bsu.cam.ac.uk/bugs/winbugs/contents.shtml
 [3]: http://www.openbugs.info/
+[4]: https://wiki.oberon.org/repo
+[5]: https://snapcraft.io/odcread

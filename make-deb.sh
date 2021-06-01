@@ -1,7 +1,7 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 NAME=odcread
-VERSION=0.1~a0
+VERSION=0.1~a1
 HOMEPAGE=https://github.com/ComdivByZero/odcread
 MAINTAINER_1="Comdiv <ComdivByZero@yandex.ru>"
 

@@ -6,7 +6,7 @@
 #  * $(MODULE)/*.cc -- module source files
 MODULES := main reader store alien typeregister textmodel fold typepath
 
-CFLAGS += -I.
+CFLAGS += -I. -O1
 LDFLAGS +=
 
 # Variables for the modules to write to
@@ -44,6 +44,11 @@ define depend_on_compiled_header
 $(patsubst %.cc,%.o,$(1)) : $(dir $(1))module.ih.gch
 endef
 $(foreach src,$(SRCS),$(eval $(call depend_on_compiled_header,$(src))))
+
+install:
+	strip odcread
+	mkdir -p $(DESTDIR)/usr/bin
+	cp odcread $(DESTDIR)/usr/bin/
 
 clean:
 	rm -f */*.o */module.d */module.ih.gch
