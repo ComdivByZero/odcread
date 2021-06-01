@@ -6,8 +6,12 @@
 #  * $(MODULE)/*.cc -- module source files
 MODULES := main reader store alien typeregister textmodel fold typepath
 
-CFLAGS += -I. -O1
-LDFLAGS +=
+CFLAGS += -I. -O1 -flto
+
+LDFLAGS += -flto
+ifeq ($(shell uname -s),Darwin)
+  LDFLAGS += -liconv
+endif
 
 # Variables for the modules to write to
 SRCS :=
