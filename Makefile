@@ -6,7 +6,8 @@
 #  * $(MODULE)/*.cc -- module source files
 MODULES := main reader store alien typeregister textmodel fold typepath
 
-PREFIX=/usr/local
+DESTDIR=
+PREFIX=$(DESTDIR)/usr
 
 CFLAGS += -I. -O1 -flto
 
