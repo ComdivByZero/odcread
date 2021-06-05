@@ -1,5 +1,7 @@
 #include "main/module.ih"
 
+#include <memory>
+
 namespace odc {
 	class Context {
 		public:
@@ -165,7 +167,7 @@ static int addToGit() {
 			} else {
 				wr = fprintf(fc, "\n[diff \"cp\"]\n"
 				                 "	binary = true\n"
-				                 "	textconv = /usr/bin/odcread\n");
+				                 "	textconv = odcread - <\n");
 				if (wr < 3) {
 					std::cerr << "Can not edit .git/config" << std::endl;
 				} else {
@@ -179,57 +181,69 @@ static int addToGit() {
 	return ret;
 }
 
-int main(int argc, char *argv[]) {
-	if (argc < 2 || argv[1][0] == '-' && 0 != strcmp(argv[1], "-add-to-git")) {
-		std::cerr << "odcread outputs content of .odc as plain text\n" << std::endl
-		          << "Usage:  odcread file.odc" << std::endl
-		          << "        odcread -add-to-git" << std::endl;
-		return 1;
-	}
+static void help() {
+	std::cerr
+	<< "odcread - converter of Oberon Document(.odc) to plain text\n" << std::endl
+	<< "Usage:" << std::endl
+	<< "  odcread file.odc     print file content as plain text" << std::endl
+	<< "  odcread -            print content from standard input" << std::endl
+	<< "  odcread -add-to-git  setup .git to use odcread as textconv for readable diff" << std::endl;
+}
 
-	// Set the locale according to the terminal's environment
-	setlocale(LC_ALL, "");
-
-	if (0 == strcmp("-add-to-git", argv[1])) {
-		return addToGit();
-	}
-
-	std::ifstream in(argv[1], std::ios::in | std::ios::binary);
-
-	if (!in.is_open()) {
-		std::cerr << "Can not open file" << std::endl;
-		return 2;
-	}
-
+static int convert(std::istream &in) {
 	odc::Store* s;
+	int ret;
+	ret = 2;
 	try {
 		s = odc::importDocument(in);
+		if (NULL == s) {
+			std::cerr << "Can not parse file" << std::endl;
+		} else {
+			ret = 0;
+		}
 	} catch (int trap) {
 		std::cerr << "Exception in parsing file: BlackBox trap no. " << trap << std::endl;
-		return 2;
 	} catch (const char * exception) {
 		std::cerr << "Exception in parsing file: " << exception << std::endl;
-		return 2;
 	}
-	if (NULL == s) {
-		std::cerr << "Can not parse file" << std::endl;
-		return 2;
+	if (0 == ret) {
+		try {
+			odc::MyVisitor visitor;
+			s->accept(visitor);
+		} catch (const char * exception) {
+			std::cerr << "Exception in processing document: " << exception << std::endl;
+			ret = 3;
+		}
+		delete s;
 	}
-//	std::cout << s->toPlainText() << std::endl;
-//	std::cout << std::endl << std::endl;
+	return ret;
+}
 
-	try {
-		odc::MyVisitor visitor;
-		s->accept(visitor);
-	} catch (const char * exception) {
-		std::cerr << "Exception in processing document: " << exception << std::endl;
-		return 3;
-	}
-//	std::cout << s->toString() << std::endl;
-//	std::cout << in.tellg() << " " << in.eof() << std::endl;
+int main(int argc, char *argv[]) {
+	int ret;
 
-//	odc::TypePath path;
-//	odc::ContainerModel(0).getTypePath(&path);
-//	std::cout << path.toString() << std::endl;
-	return 0;
+	if (argc != 2 || argv[1][0] == '-'
+	 && (argv[1][1] != '\0' && 0 != strcmp(argv[1], "-add-to-git")))
+	{
+		help();
+		ret = (int)(argc != 2 || 0 != strcmp(argv[1], "-help"));
+	} else {
+		// Set the locale according to the terminal's environment
+		setlocale(LC_ALL, "");
+
+		if (0 == strcmp("-add-to-git", argv[1])) {
+			ret = addToGit();
+		} else if (0 == strcmp("-", argv[1])) {
+			ret = convert(std::cin);
+		} else {
+			std::ifstream in(argv[1], std::ios::in | std::ios::binary);
+			if (!in.is_open()) {
+				std::cerr << "Can not open file" << std::endl;
+				ret = 2;
+			} else {
+				ret = convert(in);
+			}
+		}
+	}
+	return ret;
 }
