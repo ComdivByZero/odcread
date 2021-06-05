@@ -2,6 +2,16 @@
 
 #include <memory>
 
+enum {
+	CS_UTF8,
+	CS_NL_LANGINFO,
+#if NL_LANGINFO
+	CS = CS_NL_LANGINFO
+#else
+	CS = CS_UTF8
+#endif
+};
+
 namespace odc {
 	class Context {
 		public:
@@ -73,8 +83,14 @@ namespace odc {
 		virtual void foldRight() {
 			terminateContext();
 		}
-		char *getCharSet() {
-			return nl_langinfo(CODESET);
+		char const *getCharSet() {
+			char const *cs;
+			if (CS == CS_NL_LANGINFO) {
+				cs = nl_langinfo(CODESET);
+			} else {
+				cs = "UTF-8";
+			}
+			return cs;
 		}
 		virtual void textShortPiece(const ShortPiece *piece) {
 			std::string str = convert((char *)piece->getBuffer(), piece->size() + 1, (char *)"ISO-8859-1", 1);
