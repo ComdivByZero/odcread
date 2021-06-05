@@ -1,10 +1,10 @@
 name: odcread
 base: core18
-version: '0.1'
-summary: Reader of ".odc" oberon compound documents
+version: '0.2'
+summary: Reader of ".odc" Oberon compound documents
 description: |
   This program converts to plain text "Oberon compound document" binary format,
-  used by the Black Box Component Builder, WinBUGS, and OpenBUGS.
+  used by the BlackBox Component Builder, WinBUGS, and OpenBUGS.
 
 grade: stable
 confinement: strict
@@ -19,3 +19,4 @@ apps:
     command: usr/bin/odcread
     plugs:
       - home
+      - account-control
