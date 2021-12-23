@@ -11,6 +11,10 @@ install(TARGETS odcread DESTINATION bin)
 
 cmake_policy(SET CMP0076 NEW)
 
+target_sources(odcread
+        PRIVATE
+        oberon.h
+        )
 add_subdirectory(main)
 add_subdirectory(reader)
 add_subdirectory(store)

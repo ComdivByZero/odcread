@@ -1,5 +1,7 @@
 target_sources(odcread
         PRIVATE
+        module.ih
+        reader.h
         addPathComponent.cc
         fixTypeName.cc
         readAlien.cc
