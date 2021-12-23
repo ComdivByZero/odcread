@@ -22,6 +22,15 @@ From [Homebrew Oberon tap][6] on macOS:
     brew tap vostok-space/oberon
     brew install odcread
 
+From this source code repository using CMake:
+
+    mkdir build
+    cd build
+    cmake ..
+    make -j
+    make install
+
+
 License
 -------
 
