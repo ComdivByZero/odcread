@@ -7,6 +7,8 @@ include_directories(${PROJECT_SOURCE_DIR})
 
 add_executable(odcread "")
 
+install(TARGETS odcread DESTINATION bin)
+
 cmake_policy(SET CMP0076 NEW)
 
 add_subdirectory(main)
