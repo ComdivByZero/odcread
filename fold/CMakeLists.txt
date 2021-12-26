@@ -1,0 +1,10 @@
+target_sources(odcread
+        PRIVATE
+        module.ih
+        fold.h
+        accept.cc
+        fold.cc
+        internalize.cc
+        toString.cc
+        view.cc
+        )
