@@ -1,3 +1,7 @@
+Tool is abandoned and replaced by [odcey](https://github.com/Vostok-space/odcey)
+===============================================
+
+
 odcread - read ".odc" oberon compound documents
 ===============================================
 
